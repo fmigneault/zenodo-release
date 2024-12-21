@@ -64,10 +64,18 @@ runs:
         ACTION_PATH: ${{ github.action_path }}
         ZENODO_TOKEN: ${{ inputs.token }}
         doi: ${{ inputs.doi }}
+        title: ${{ inputs.title }}
+        description: ${{ inputs.description }}
       run: |
         command="python ${{ github.action_path }}/scripts/deploy.py upload ${archive} --version ${version}"
         if [[ "${doi}" != "" ]]; then
             command="$command --doi ${doi}"
+        fi
+        if [[ "${title}" != "" ]]; then
+            command="$command --title ${title}"
+        fi
+        if [[ "${description}" != "" ]]; then
+            command="$command --description ${description}"
         fi
         if [[ "${zenodo_json}" != "" ]]; then
             command="$command --zenodo-json ${zenodo_json}"
