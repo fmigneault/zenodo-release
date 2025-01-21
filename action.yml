@@ -69,19 +69,19 @@ runs:
       run: |
         command="python ${{ github.action_path }}/scripts/deploy.py upload ${archive} --version ${version}"
         if [[ "${doi}" != "" ]]; then
-            command="$command --doi ${doi}"
+            command="$command --doi '${doi}'"
         fi
         if [[ "${title}" != "" ]]; then
-            command="$command --title ${title}"
+            command="$command --title '${title}'"
         fi
         if [[ "${description}" != "" ]]; then
-            command="$command --description ${description}"
+            command="$command --description '${description}'"
         fi
         if [[ "${zenodo_json}" != "" ]]; then
-            command="$command --zenodo-json ${zenodo_json}"
+            command="$command --zenodo-json '${zenodo_json}'"
         fi
         if [[ "${html_url}" != "" ]]; then
-            command="$command --html-url ${html_url}"
+            command="$command --html-url '${html_url}'"
         fi
         printf "$command\n"
         $command
