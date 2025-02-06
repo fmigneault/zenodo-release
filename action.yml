@@ -19,7 +19,9 @@ inputs:
   title:
     description: zenodo title (optional)
   description:
-    description: zenodo description (optional)
+    description: zenodo description as plain text (optional)
+  description_file:
+    description: zenodo description from a file (optional)
 
 outputs:
   badge:
@@ -76,6 +78,8 @@ runs:
         fi
         if [[ "${description}" != "" ]]; then
             command="$command --description '${description}'"
+        elif [[ "${description_file}" != "" ]]; then
+            command="$command --description-file '${description_file}'"
         fi
         if [[ "${zenodo_json}" != "" ]]; then
             command="$command --zenodo-json ${zenodo_json}"
