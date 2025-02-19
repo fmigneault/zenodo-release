@@ -68,6 +68,7 @@ runs:
         doi: ${{ inputs.doi }}
         title: ${{ inputs.title }}
         description: ${{ inputs.description }}
+        description_file: ${{ inputs.description_file }}
       run: |
         command="python ${{ github.action_path }}/scripts/deploy.py upload ${archive} --version ${version}"
         if [[ "${doi}" != "" ]]; then
