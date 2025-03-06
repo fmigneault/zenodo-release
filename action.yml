@@ -78,15 +78,15 @@ runs:
             command="$command --title '${title}'"
         fi
         if [[ "${description}" != "" ]]; then
-            command="$command --description '${description}'"
+            command="$command --description \"${description}\""
         elif [[ "${description_file}" != "" ]]; then
-            command="$command --description-file '${description_file}'"
+            command="$command --description-file \"${description_file}\""
         fi
         if [[ "${zenodo_json}" != "" ]]; then
             command="$command --zenodo-json ${zenodo_json}"
         fi
         if [[ "${html_url}" != "" ]]; then
-            command="$command --html-url '${html_url}'"
+            command="$command --html-url \"${html_url}\""
         fi
         printf "$command\n"
         $command

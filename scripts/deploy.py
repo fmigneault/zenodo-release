@@ -12,8 +12,13 @@ import os
 import sys
 from datetime import datetime
 from glob import glob
+from typing import TYPE_CHECKING
 
 import requests
+
+if TYPE_CHECKING:
+    import io
+    from typing import Any, Dict, Optional
 
 
 def read_file(filename):
@@ -210,14 +215,14 @@ class Zenodo:
 
     def upload_metadata(
         self,
-        upload,
-        zenodo_json,
-        version,
-        html_url=None,
-        title=None,
-        description=None,
-        description_file=None,
-    ):
+        upload,                 # type: Dict[str, Any]
+        zenodo_json,            # type: str
+        version,                # type: str
+        html_url=None,          # type: Optional[str]
+        title=None,             # type: Optional[str]
+        description=None,       # type: Optional[str]
+        description_file=None,  # type: Optional[io.TextIOBase]
+    ):                          # type: (...) -> Dict[str, Any]
         """
         Given an upload response and zenodo json, upload new data
 
@@ -253,8 +258,8 @@ class Zenodo:
 
         if description is not None:
             metadata["description"] = description
-        elif isinstance(description_file, str) and os.path.isfile(description_file):
-            metadata["description"] = read_file(description_file)
+        elif description_file:
+            metadata["description"] = description_file.read()
 
         # Make the deposit!
         url = "https://zenodo.org/api/deposit/depositions/%s" % upload["id"]
@@ -342,6 +347,7 @@ def get_parser():
     upload_desc.add_argument(
         "--description-file",
         help="Description to override in upload from a file.",
+        type=argparse.FileType("r", encoding="utf-8"),
     )
     upload.add_argument("--doi", help="an existing DOI to add a new version to")
     upload.add_argument(
