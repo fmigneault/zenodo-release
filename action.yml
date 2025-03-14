@@ -70,25 +70,25 @@ runs:
         description: ${{ inputs.description }}
         description_file: ${{ inputs.description_file }}
       run: |
-        command="python ${{ github.action_path }}/scripts/deploy.py upload ${archive} --version ${version}"
-        if [[ "${doi}" != "" ]]; then
-            command="$command --doi ${doi}"
+        command=("python" "${{ github.action_path }}/scripts/deploy.py" "upload" "${archive}" "--version" "${version}")
+        if [[ -n "${doi}" ]]; then
+            command+=("--doi" "${doi}")
         fi
-        if [[ "${title}" != "" ]]; then
-            command="$command --title '${title}'"
+        if [[ -n "${title}" ]]; then
+            command+=("--title" "${title}")
         fi
-        if [[ "${description}" != "" ]]; then
-            command="$command --description \"${description}\""
-        elif [[ "${description_file}" != "" ]]; then
-            command="$command --description-file \"${description_file}\""
+        if [[ -n "${description}" ]]; then
+            command+=("--description" "${description}")
+        elif [[ -n "${description_file}" ]]; then
+            command+=("--description-file" "${description_file}")
         fi
-        if [[ "${zenodo_json}" != "" ]]; then
-            command="$command --zenodo-json ${zenodo_json}"
+        if [[ -n "${zenodo_json}" ]]; then
+            command+=("--zenodo-json" "${zenodo_json}")
         fi
-        if [[ "${html_url}" != "" ]]; then
-            command="$command --html-url \"${html_url}\""
+        if [[ -n "${html_url}" ]]; then
+            command+=("--html-url" "${html_url}")
         fi
-        printf "$command\n"
-        $command
+        printf "%s " "${command[@]}"
+        "${command[@]}"
 
       shell: bash
